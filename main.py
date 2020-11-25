@@ -68,7 +68,7 @@ class Browser:
             elif self.inp_url == "exit":
                 break
             else:
-                print("error")
+                print("error") 
 
 
     # Checking directory and create if not exist
