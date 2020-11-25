@@ -44,15 +44,15 @@ class Browser:
     def __init__(self):
         self.name_dir = str(args[1])
         self.txt_fw = None
-        self.list_tabs = []
 
     # Main menu
 
     def menu(self):
-        self.inp_url = input()
-        self.file_name = self.inp_url.split(".")[0]
-        self.choice = "http://www." + self.inp_url
         while True:
+            self.inp_url = input()
+            self.list_tabs = os.listdir(self.name_dir)
+            self.list_tabs1 = list(self.list_tabs)
+            self.file_name = self.inp_url.split(".")[0]
             if "." in self.inp_url:
                 if self.inp_url == "bloomberg.com":
                     self.txt_fw = bloomberg_com
@@ -60,38 +60,33 @@ class Browser:
                 elif self.inp_url == "nytimes.com":
                     self.txt_fw = nytimes_com
                     self.create_file()
+                    return self.menu()
                 else:
                     print("error")
+            elif self.inp_url in self.list_tabs:
+                self.file_open()
             elif self.inp_url == "exit":
-                exit()
-            # elif "." not in self.inp_url:
-            #     if self.inp_url == "exit":
-            #         exit()
-            #     elif self.file_name in self.list_tabs:
-            #         self.file_open()
-            #
-            #     else:
-            #         print("Error")
-            #         break
+                break
+            else:
+                print("error")
+
 
     # Checking directory and create if not exist
-
     def check_dir(self):
         if not os.path.exists(f"{self.name_dir}"):
             os.mkdir(f"{self.name_dir}")
 
-    # Creating page file
-
+    
+    # Read page file
     def file_open(self):
         with open(f'{self.name_dir}/{self.file_name}', 'r') as r_file:
             print(r_file.read())
-            self.menu()
 
+    # Create page file
     def create_file(self):
         with open(f'{self.name_dir}/{self.file_name}', 'w') as r_file:
             print(self.txt_fw)
             r_file.write(self.txt_fw)
-            self.list_tabs.append(self.file_name)
 
 
 args = sys.argv
