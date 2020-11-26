@@ -44,6 +44,7 @@ class Browser:
     def __init__(self):
         self.name_dir = str(args[1])
         self.txt_fw = None
+        self.stack_pages = []
 
     # Main menu
 
@@ -57,16 +58,22 @@ class Browser:
                 if self.inp_url == "bloomberg.com":
                     self.txt_fw = bloomberg_com
                     self.create_file()
+                    self.stack_pages.append(self.file_name)
                 elif self.inp_url == "nytimes.com":
                     self.txt_fw = nytimes_com
                     self.create_file()
-                    return self.menu()
+                    self.stack_pages.append(self.file_name)
                 else:
                     print("error")
             elif self.inp_url in self.list_tabs:
                 self.file_open()
+                self.stack_pages.append(self.file_name)
             elif self.inp_url == "exit":
                 break
+            elif self.inp_url == "back":
+                self.stack_pages.pop()
+                self.file_name = self.stack_pages[-1]
+                self.file_open()
             else:
                 print("error") 
 
