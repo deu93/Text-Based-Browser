@@ -2,6 +2,7 @@ import os
 import sys
 import requests
 from bs4 import BeautifulSoup
+from colorama import Fore
 
 # write your code here
 
@@ -11,6 +12,7 @@ class Browser:
         self.name_dir = str(args[1])
         self.txt_fw = None
         self.stack_pages = []
+        self.text = ""
 
     # Main menu
 
@@ -43,9 +45,18 @@ class Browser:
     def read_site(self):
         r = requests.get(self.inp_url)
         if r:
-            soup = BeautifulSoup(r.content)
-            r.encoding = 'utf-8'
-            return r.text
+            soup = BeautifulSoup(r.content, 'html.parser')
+            el = soup.find_all('div')
+
+            for i in el:
+                if "p" in i.text or "ul" in i.text or "ol" in i.text or "li" in i.text:
+                    self.text += str(i.text) + "\n"
+                elif "a" in i.text:
+                    self.text += Fore.BLUE + i.text + "\n"
+                
+            
+            # r.encoding = 'utf-8'
+            return self.text
         else:
             return "Error"
 
