@@ -1,7 +1,7 @@
 import os
 import sys
 import requests
-
+from bs4 import BeautifulSoup
 
 # write your code here
 
@@ -43,6 +43,7 @@ class Browser:
     def read_site(self):
         r = requests.get(self.inp_url)
         if r:
+            soup = BeautifulSoup(r.content)
             r.encoding = 'utf-8'
             return r.text
         else:
@@ -64,8 +65,8 @@ class Browser:
             print(self.txt_fw)
             r_file.write(self.txt_fw)
 
-
-args = sys.argv
-my_browser = Browser()
-my_browser.check_dir()
-my_browser.menu()
+if __name__ == "__main__":
+    args = sys.argv
+    my_browser = Browser()
+    my_browser.check_dir()
+    my_browser.menu()
